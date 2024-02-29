@@ -1,44 +1,46 @@
-// 1-calcul.test.js
-
 const assert = require('assert');
-const {calculateNumber} = require('./1-calcul');
+const calculateNumber = require('./1-calcul');
 
-describe('calculateNumber', function() {
-    describe('SUM operation', function() {
-        it('should return the sum of two rounded numbers', function() {
-            assert.strictEqual(calculateNumber('SUM', 1.4, 2.6), 4);
-        });
+describe('test calculate number', () => {
+  it('checks the rounded sum', () => {
+    assert.equal(calculateNumber('SUM', 1, 3), 4);
+    assert.equal(calculateNumber('SUM', 1, 3.7), 5);
+    assert.equal(calculateNumber('SUM', 1.2, 3.7), 5);
+    assert.equal(calculateNumber('SUM', 1.5, 3.7), 6);
+    assert.equal(calculateNumber('SUM', -1, 3), 2);
+    assert.equal(calculateNumber('SUM', -1, -4), -5);
+    assert.equal(calculateNumber('SUM', -1.2, -1.4), -2);
+    assert.equal(calculateNumber('SUM', -2, 3.2), 1);
+  });
 
-        it('should handle negative numbers', function() {
-            assert.strictEqual(calculateNumber('SUM', -3.5, 2.3), -1);
-        });
+  it('checks the rounded difference', () => {
+    assert.equal(calculateNumber('SUBTRACT', 1, 3), -2);
+    assert.equal(calculateNumber('SUBTRACT', 3.3, 1), 2);
+    assert.equal(calculateNumber('SUBTRACT', 1.4, 4.5), -4);
+    assert.equal(calculateNumber('SUBTRACT', 1.5, 3.7), -2);
+    assert.equal(calculateNumber('SUBTRACT', -1, 3), -4);
+    assert.equal(calculateNumber('SUBTRACT', -1, -4), 3);
+    assert.equal(calculateNumber('SUBTRACT', -1.2, -1.4), 0);
+    assert.equal(calculateNumber('SUBTRACT', -2, 3.2), -5);
+  });
 
-        it('should handle zero correctly', function() {
-            assert.strictEqual(calculateNumber('SUM', 0, 0), 0);
-        });
+  it('checks the rounded division', () => {
+    assert.equal(calculateNumber('DIVIDE', 6, 2), 3);
+    assert.equal(calculateNumber('DIVIDE', 3.3, 1), 3);
+    assert.equal(calculateNumber('DIVIDE', 1.4, 4.5), 0.2);
+    assert.equal(calculateNumber('DIVIDE', 1.7, 3.7), 0.5);
+    assert.equal(calculateNumber('DIVIDE', -6, 3), -2);
+    assert.equal(calculateNumber('DIVIDE', -6, -3), 2);
+    assert.equal(calculateNumber('DIVIDE', -6.2, -3.4), 2);
+    assert.equal(calculateNumber('DIVIDE', -2, 2.1), -1);
+    assert.equal(calculateNumber('DIVIDE', -2, 0), 'Error');
+  });
 
-        it('should handle large numbers', function() {
-            assert.strictEqual(calculateNumber('SUM', 1000000.1, 2000000.9), 3000001);
-        });
-    });
 
-    describe('SUBTRACT operation', function() {
-        it('should return the difference of two rounded numbers', function() {
-            assert.strictEqual(calculateNumber('SUBTRACT', 5.6, 2.4), 4);
-        });
-
-        it('should handle negative results', function() {
-            assert.strictEqual(calculateNumber('SUBTRACT', 2.3, 4.5), -3);
-        });
-    });
-
-    describe('DIVIDE operation', function() {
-        it('should return the result of division of two rounded numbers', function() {
-            assert.strictEqual(calculateNumber('DIVIDE', 8, 4), 2);
-        });
-
-        it('should handle division by zero', function() {
-            assert.strictEqual(calculateNumber('DIVIDE', 5, 0), 'Error');
-        });
-    });
+  it('checks the NaN number', () => {
+    assert.throws(() => calculateNumber('SUM', NaN, 5), '[Function: TypeError]');
+    assert.throws(() => calculateNumber('SUBTRACT', NaN, 5), '[Function: TypeError]');
+    assert.throws(() => calculateNumber('DIVIDE', NaN, 5), '[Function: TypeError]');
+    assert.throws(() => calculateNumber('shhh', NaN, 5), '[Function: TypeError]');
+  });
 });
